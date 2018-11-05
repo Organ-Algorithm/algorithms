@@ -13,9 +13,9 @@ import java.util.Stack;
 public class TreeNodeTool {
 
 	/**
-	 * 对TreeNode实例对象进行层次遍历操作
+	 * 层次遍历（非递归法）
 	 * 
-	 * @param root 遍历操作的TreeNode对象的根节点
+	 * @param root 遍历的根节点
 	 */
 	public static void levelTraverse(TreeNode root) {
 		Queue<TreeNode> queueA = new LinkedList<>();
@@ -44,14 +44,14 @@ public class TreeNodeTool {
 
 			}
 			System.out.println();
-		}   
-		
+		}
+
 	}
-	
-	
+
 	/**
+	 * 先序遍历（非递归法：使用Stack）
 	 * 
-	 * @param root
+	 * @param root 遍历的根节点
 	 */
 	public static void DLRTraverse(TreeNode root) {
 		Stack<TreeNode> stack = new Stack<>();
@@ -59,19 +59,47 @@ public class TreeNodeTool {
 
 		while (!stack.isEmpty()) {
 			TreeNode node = stack.pop();
-			
+
 			System.out.println(node.val + "");
+
+			if (node.right != null) {
+				stack.push(node.right);
+			}
+
+			if (node.left != null) {
+				stack.push(node.left);
+			}
+		}
+	}
+
+	/**
+	 * 中序遍历（非递归法）
+	 * 
+	 * 问题：采用非递归法（即使用一般循环法），面临的问题是，当左子节点遍历完成后，返回父节点，
+	 * 父节点符合知道其左、右子节点已经遍历完成。同样图的遍历可能也会考虑到同样的问题。
+	 * 
+	 * 常规实现中：是先访问节点，再存入Stack里面，同理【先序遍历法】也是如此。都是先访问节点，再存入Stack中。
+	 * 
+	 * @param root
+	 */
+	public static void LDRTraverse(TreeNode root) {
+		Stack<TreeNode> stack = new Stack<>();
+		stack.push(root);
+
+		while (!stack.isEmpty()) {
+			TreeNode node = stack.peek();
+			if (node.left != null) {
+				stack.push(node.left);
+				continue;
+			}
 			
+			System.out.println(node.val);
 			
 			if (node.right != null) {
 				stack.push(node.right);
 			}
-			
-			if (node.left != null) {
-				stack.push(node.left);
-			}
-			
 		}
+		//
 
 	}
 }
