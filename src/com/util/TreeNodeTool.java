@@ -55,51 +55,61 @@ public class TreeNodeTool {
 	 */
 	public static void DLRTraverse(TreeNode root) {
 		Stack<TreeNode> stack = new Stack<>();
-		stack.push(root);
+		TreeNode temp = root;
 
-		while (!stack.isEmpty()) {
-			TreeNode node = stack.pop();
+		while (temp != null || !stack.isEmpty()) {
 
-			System.out.println(node.val + "");
-
-			if (node.right != null) {
-				stack.push(node.right);
-			}
-
-			if (node.left != null) {
-				stack.push(node.left);
+			if (temp != null) {
+				System.out.print(temp.val + " ");
+				stack.push(temp);
+				temp = temp.left;
+			} else {
+				temp = stack.pop();
+				//stack.push(temp.right);右子节点不需要存入
+				temp = temp.right;
 			}
 		}
 	}
 
+	
 	/**
 	 * 中序遍历（非递归法）
-	 * 
-	 * 问题：采用非递归法（即使用一般循环法），面临的问题是，当左子节点遍历完成后，返回父节点，
-	 * 父节点符合知道其左、右子节点已经遍历完成。同样图的遍历可能也会考虑到同样的问题。
-	 * 
-	 * 常规实现中：是先访问节点，再存入Stack里面，同理【先序遍历法】也是如此。都是先访问节点，再存入Stack中。
 	 * 
 	 * @param root
 	 */
 	public static void LDRTraverse(TreeNode root) {
 		Stack<TreeNode> stack = new Stack<>();
-		stack.push(root);
+		TreeNode temp = root;
 
-		while (!stack.isEmpty()) {
-			TreeNode node = stack.peek();
-			if (node.left != null) {
-				stack.push(node.left);
-				continue;
+		while (!stack.isEmpty() || temp != null) {
+			if (temp != null) {
+				stack.push(temp);
+				temp = temp.left;
 			}
-			
-			System.out.println(node.val);
-			
-			if (node.right != null) {
-				stack.push(node.right);
+			else {
+				temp = stack.pop();
+				System.out.print(temp.val + " ");
+				temp = temp.right;	//出栈访问右子节点，而不是出栈后输出，造成了返回父节点后，再次访问子节点。
 			}
 		}
-		//
-
+	}
+	
+	
+	
+	/**
+	 * 测试用例
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		TreeNode root = new TreeNode(3);
+		root.left = new TreeNode(1);
+		root.left.right = new TreeNode(2);
+		root.right = new TreeNode(5);
+		root.right.left = new TreeNode(4);
+		TreeNodeTool.levelTraverse(root);
+		TreeNodeTool.DLRTraverse(root);
+		TreeNodeTool.LDRTraverse(root);
+//		System.out.println(kthSmallest(root, 2));
 	}
 }

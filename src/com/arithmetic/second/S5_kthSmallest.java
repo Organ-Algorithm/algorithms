@@ -53,7 +53,7 @@ public class S5_kthSmallest {
 		root.right = new TreeNode(5);
 		root.right.left = new TreeNode(4);
 		TreeNodeTool.levelTraverse(root);
-		TreeNodeTool.DLRTraverse(root);
+		TreeNodeTool.LDRTraverse(root);
 //		System.out.println(kthSmallest(root, 2));
 	}
 }
